@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/betayhqp/taskmanager.betabox.cx/
+    - /bin/cp -R public/* $DEPLOYPATH
