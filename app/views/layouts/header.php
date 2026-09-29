@@ -285,6 +285,76 @@ $csrfToken = $csrfToken ?? '';
     white-space: normal;
     overflow-wrap: anywhere;
 }
+            .tasks-list .table-responsive { overflow: visible; }
+            .tasks-list .table,
+            .tasks-list .table tbody { display: block; width: 100%; }
+            .tasks-list .table { table-layout: auto; }
+            .tasks-list .table thead { display: none; }
+            .tasks-list .table tbody { display: grid; gap: 10px; padding: 12px; }
+            .tasks-list .table tbody tr {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px 12px;
+                padding: 14px;
+                border: 1px solid var(--line);
+                border-radius: 8px;
+                background: #fff;
+                box-shadow: 0 2px 8px rgb(32 62 102 / 4%);
+            }
+            .tasks-list .table tbody td {
+                display: block;
+                min-width: 0;
+                padding: 0 !important;
+                border: 0 !important;
+                background: transparent !important;
+                color: #526174;
+                font-size: .84rem;
+                line-height: 1.4;
+                overflow-wrap: anywhere;
+            }
+            .tasks-list .table tbody td::before {
+                display: block;
+                margin-bottom: 4px;
+                color: #8793a3;
+                content: attr(data-label);
+                font-size: .67rem;
+                font-weight: 700;
+                text-transform: uppercase;
+            }
+            .tasks-list .table tbody td[data-label="Title"],
+            .tasks-list .table tbody td[data-label="Description"],
+            .tasks-list .table tbody td[data-label="Due Date"] { grid-column: 1 / -1; }
+            .tasks-list .table tbody td[data-label="Title"] {
+                color: var(--ink);
+                font-size: .95rem;
+                font-weight: 700;
+            }
+            .tasks-list .table tbody td[data-label="Description"] {
+                padding: 10px 12px !important;
+                border-left: 2px solid #b7cdf4 !important;
+                border-radius: 6px;
+                background: #f5f8fd !important;
+                color: #5c6c82;
+                font-size: .86rem;
+                line-height: 1.55;
+            }
+            .tasks-list .table tbody td[data-label="Description"]::before {
+                margin-bottom: 6px;
+                color: #74859b;
+            }
+            .tasks-list .table tbody td:empty { display: none; }
+            .tasks-list .table tbody tr.tasks-empty-row {
+                display: block;
+                padding: 0;
+                border: 0;
+                background: transparent;
+                box-shadow: none;
+            }
+            .tasks-list .table tbody tr.tasks-empty-row td {
+                padding: 32px 10px !important;
+                text-align: center;
+            }
+            .tasks-list .table tbody tr.tasks-empty-row td::before { display: none; }
             .dashboard-intro { margin-bottom: 18px !important; }
             .dashboard-intro .eyebrow { margin-bottom: 8px !important; font-size: .84rem; }
             .dashboard-intro h1.h2 { font-size: 1.75rem; }
