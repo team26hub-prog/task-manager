@@ -32,33 +32,53 @@ $csrfToken = $csrfToken ?? '';
 
         .app-shell { min-height: 100vh; }
         .sidebar {
-            width: 250px;
+            position: fixed;
+            z-index: 1050;
+            inset: 0 auto 0 0;
+            width: 264px;
             min-height: 100vh;
-            flex: 0 0 250px;
+            min-height: 100dvh;
+            overflow-y: auto;
+            flex: 0 0 264px;
             background: var(--navy);
             color: #d4deed;
+            transform: translateX(-105%);
+            transition: transform .22s ease;
+            box-shadow: 12px 0 32px rgb(20 39 67 / 18%);
         }
+        .sidebar.is-open { transform: translateX(0); }
         .brand-mark {
             display: grid;
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             place-items: center;
-            border-radius: 10px;
+            border-radius: 11px;
             background: #3979ef;
             color: #fff;
         }
         .sidebar .nav-link {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 13px;
             width: 100%;
-            padding: 11px 13px;
+            min-height: 48px;
+            padding: 11px 14px;
             border: 0;
-            border-radius: 7px;
+            border-radius: 8px;
             background: transparent;
             color: #c1cde0;
+            font-size: .95rem;
+            font-weight: 500;
             text-align: left;
             text-decoration: none;
+            transition: background-color .16s ease, color .16s ease;
+        }
+        .sidebar .nav-link i {
+            display: inline-grid;
+            width: 22px;
+            flex: 0 0 22px;
+            place-items: center;
+            font-size: 1.1rem;
         }
         .sidebar .nav-link:hover,
         .sidebar .nav-link.active {
@@ -66,6 +86,11 @@ $csrfToken = $csrfToken ?? '';
             color: #fff;
         }
         .sidebar .nav-link.active { box-shadow: inset 3px 0 #6ea0ff; }
+        .sidebar .nav-link:focus-visible,
+        .mobile-nav-toggle:focus-visible {
+            outline: 3px solid #8db5ff;
+            outline-offset: 2px;
+        }
         .sidebar-label {
             color: #8292aa;
             font-size: .72rem;
@@ -74,15 +99,45 @@ $csrfToken = $csrfToken ?? '';
             text-transform: uppercase;
         }
         .main-content { min-width: 0; flex: 1; }
+        .drawer-backdrop {
+            position: fixed;
+            z-index: 1040;
+            inset: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            border: 0;
+            background: rgb(12 24 42 / 48%);
+        }
+        .drawer-backdrop[hidden] { display: none; }
         .topbar {
-            min-height: 70px;
+            min-height: 74px;
             border-bottom: 1px solid var(--line);
             background: #fff;
         }
         .mobile-brand,
-        .mobile-nav-toggle,
-        .drawer-backdrop,
         .mobile-drawer-logout { display: none; }
+        .mobile-nav-toggle,
+        .mobile-drawer-close {
+            display: inline-grid;
+            width: 42px;
+            height: 42px;
+            place-items: center;
+            border: 1px solid var(--line);
+            border-radius: 7px;
+            background: #fff;
+            color: var(--ink);
+            font-size: 1.25rem;
+        }
+        .mobile-drawer-close {
+            width: 40px;
+            height: 40px;
+            border-color: rgb(255 255 255 / 22%);
+            background: transparent;
+            color: #fff;
+            font-size: 1rem;
+        }
         .content-wrap { max-width: 1450px; }
         .eyebrow { color: var(--muted); font-size: .78rem; font-weight: 600; }
         .summary-item {
@@ -132,33 +187,27 @@ $csrfToken = $csrfToken ?? '';
             body { overflow-x: hidden; }
             .app-shell { display: block !important; }
             .sidebar {
-                position: fixed;
-                z-index: 1050;
-                inset: 0 auto 0 0;
                 width: min(290px, calc(100vw - 52px));
-                min-height: 100vh;
-                min-height: 100dvh;
-                overflow-y: auto;
-                transform: translateX(-105%);
-                transition: transform .22s ease;
-                box-shadow: 12px 0 32px rgb(20 39 67 / 18%);
             }
-            .sidebar.is-open { transform: translateX(0); }
             .sidebar .nav { display: flex !important; flex-direction: column; }
+            .sidebar-brand-row { margin-bottom: 2rem !important; }
+            .sidebar .nav-link {
+                min-height: 48px;
+                padding: 12px 14px;
+                font-weight: 600;
+            }
+            .sidebar .nav-link i {
+                display: inline-grid;
+                width: 22px;
+                place-items: center;
+                font-size: 1.1rem;
+            }
+            .sidebar .nav-link.active {
+                background: #29496f;
+                box-shadow: inset 3px 0 #79a8ff;
+            }
             .sidebar .sidebar-footer { display: block; }
             .mobile-drawer-logout { display: block; }
-            .drawer-backdrop {
-                position: fixed;
-                z-index: 1040;
-                inset: 0;
-                display: block;
-                width: 100%;
-                height: 100%;
-                padding: 0;
-                border: 0;
-                background: rgb(12 24 42 / 48%);
-            }
-            .drawer-backdrop[hidden] { display: none; }
             .main-content { width: 100%; }
             .topbar {
                 min-height: 60px;
@@ -169,17 +218,6 @@ $csrfToken = $csrfToken ?? '';
             .mobile-brand { display: flex; align-items: center; gap: 9px; }
             .mobile-brand .brand-mark { width: 34px; height: 34px; }
             .mobile-brand-title { font-size: 1rem; font-weight: 700; }
-            .mobile-nav-toggle {
-                display: inline-grid;
-                width: 42px;
-                height: 42px;
-                place-items: center;
-                border: 1px solid var(--line);
-                border-radius: 7px;
-                background: #fff;
-                color: var(--ink);
-                font-size: 1.25rem;
-            }
             .content-wrap { padding: 20px 14px 28px !important; }
             .content-wrap h1.h2 { font-size: 1.4rem; }
             .content-wrap > .d-flex.align-items-end > .btn { width: 100%; min-height: 44px; }
@@ -211,10 +249,15 @@ $csrfToken = $csrfToken ?? '';
 <body>
     <div class="app-shell d-flex">
         <aside id="appSidebar" class="sidebar d-flex flex-column p-3 p-lg-4">
-            <a class="d-flex align-items-center gap-2 mb-5 text-decoration-none text-white" href="<?php echo $pageUrl; ?>?page=dashboard">
-                <span class="brand-mark"><i class="bi bi-check2-square" aria-hidden="true"></i></span>
-                <span class="fw-semibold">Task Manager</span>
-            </a>
+            <div class="sidebar-brand-row d-flex align-items-center justify-content-between mb-5">
+                <a class="d-flex align-items-center gap-2 text-decoration-none text-white" href="<?php echo $pageUrl; ?>?page=dashboard">
+                    <span class="brand-mark"><i class="bi bi-check2-square" aria-hidden="true"></i></span>
+                    <span class="fw-semibold">Task Manager</span>
+                </a>
+                <button class="mobile-drawer-close" type="button" aria-label="Close navigation">
+                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                </button>
+            </div>
 
             <div class="sidebar-label mb-2 px-2">Workspace</div>
             <nav class="nav flex-column gap-1" aria-label="Dashboard navigation">
