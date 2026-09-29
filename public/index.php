@@ -1,14 +1,19 @@
 <?php
 
-require_once __DIR__ . '/../app/controllers/TaskController.php';
+$basePath = is_dir(__DIR__ . '/app')
+    ? __DIR__
+    : dirname(__DIR__);
+
+require_once $basePath . '/app/controllers/TaskController.php';
 
 $pages = [
-    'dashboard' => __DIR__ . '/../app/views/dashboard/index.php',
-    'tasks' => __DIR__ . '/../app/views/tasks/index.php',
-    'add-task' => __DIR__ . '/../app/views/tasks/create.php',
-    'reports' => __DIR__ . '/../app/views/reports/index.php',
-    'settings' => __DIR__ . '/../app/views/settings/index.php',
+    'dashboard' => $basePath . '/app/views/dashboard/index.php',
+    'tasks' => $basePath . '/app/views/tasks/index.php',
+    'add-task' => $basePath . '/app/views/tasks/create.php',
+    'reports' => $basePath . '/app/views/reports/index.php',
+    'settings' => $basePath . '/app/views/settings/index.php',
 ];
+
 $page = (string) ($_GET['page'] ?? 'dashboard');
 
 if (!isset($pages[$page])) {
@@ -36,6 +41,7 @@ try {
 
     $tasks = $taskController->index();
     require $pages[$page];
+
 } catch (PDOException $exception) {
     http_response_code(500);
     echo 'Database connection failed';
