@@ -27,7 +27,7 @@ $csrfToken = $csrfToken ?? '';
             min-height: 100vh;
             background: var(--canvas);
             color: var(--ink);
-            font-family: "Segoe UI", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         }
 
         .app-shell { min-height: 100vh; }
@@ -167,6 +167,7 @@ $csrfToken = $csrfToken ?? '';
             background: #fff;
         }
         .mobile-brand { display: none; }
+        .mobile-bottom-nav { display: none; }
         .mobile-nav-toggle,
         .mobile-drawer-close {
             display: inline-grid;
@@ -259,7 +260,7 @@ $csrfToken = $csrfToken ?? '';
             .mobile-brand { display: flex; align-items: center; gap: 9px; }
             .mobile-brand .brand-mark { width: 34px; height: 34px; }
             .mobile-brand-title { font-size: 1rem; font-weight: 700; }
-            .content-wrap { padding: 20px 14px 28px !important; }
+            .content-wrap { padding: 20px 14px calc(104px + env(safe-area-inset-bottom)) !important; }
             .content-wrap h1.h2 { font-size: 1.4rem; }
             .content-wrap > .d-flex.align-items-end > .btn { width: 100%; min-height: 44px; }
             .content-wrap > .d-flex.align-items-end > .d-flex { width: 100%; }
@@ -284,6 +285,130 @@ $csrfToken = $csrfToken ?? '';
     white-space: normal;
     overflow-wrap: anywhere;
 }
+            .dashboard-intro { margin-bottom: 18px !important; }
+            .dashboard-intro .eyebrow { margin-bottom: 8px !important; font-size: .84rem; }
+            .dashboard-intro h1.h2 { font-size: 1.75rem; }
+            .dashboard-intro p { font-size: .95rem; }
+            .dashboard-header-add { display: none; }
+            .content-wrap .dashboard-stats > [class*="col-"] {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+            .dashboard-stats { --bs-gutter-x: .7rem; --bs-gutter-y: .7rem; margin-bottom: 18px !important; }
+            .dashboard-stats .summary-item {
+                min-height: 88px;
+                gap: 10px !important;
+                padding: 12px !important;
+                border-radius: 9px;
+                box-shadow: 0 2px 8px rgb(32 62 102 / 3%);
+            }
+            .dashboard-stats .summary-icon {
+                width: 42px;
+                height: 42px;
+                flex: 0 0 42px;
+                border-radius: 10px;
+                font-size: 1.25rem;
+            }
+            .dashboard-stats .summary-item .small { font-size: .76rem; white-space: nowrap; }
+            .dashboard-stats .summary-item .h4 { font-size: 1.35rem; }
+            .dashboard-recent { border-radius: 9px; box-shadow: 0 2px 10px rgb(32 62 102 / 4%); }
+            .dashboard-recent > .d-flex { padding: 14px 15px !important; }
+            .dashboard-recent h2 { font-size: 1rem; }
+            .dashboard-recent .table-responsive { overflow: hidden; }
+            .dashboard-recent .table,
+            .dashboard-recent .table tbody { display: block; width: 100%; }
+            .dashboard-recent .table thead { display: none; }
+            .dashboard-recent .table tbody tr {
+                display: grid;
+                grid-template-columns: max-content max-content minmax(0, 1fr) 12px;
+                align-items: center;
+                gap: 7px 9px;
+                padding: 13px 15px;
+                border-bottom: 1px solid var(--line);
+            }
+            .dashboard-recent .table tbody tr:last-child { border-bottom: 0; }
+            .dashboard-recent .table tbody td {
+                min-width: 0;
+                padding: 0 !important;
+                border: 0;
+                color: var(--muted);
+                font-size: .78rem;
+            }
+            .dashboard-recent .table tbody td:first-child {
+                grid-column: 1 / -1;
+                color: var(--ink);
+                font-size: .92rem;
+                font-weight: 600;
+                line-height: 1.35;
+            }
+            .dashboard-recent .table tbody td:nth-child(2) { grid-column: 1; }
+            .dashboard-recent .table tbody td:nth-child(3) { grid-column: 2; }
+            .dashboard-recent .table tbody td:nth-child(4) {
+                position: relative;
+                grid-column: 3 / 5;
+                justify-self: end;
+                padding-right: 16px !important;
+                white-space: nowrap;
+            }
+            .dashboard-recent .table tbody td:nth-child(4)::after {
+                position: absolute;
+                top: 50%;
+                right: 0;
+                color: #9aabc0;
+                content: "";
+                width: 8px;
+                height: 8px;
+                border-top: 2px solid currentColor;
+                border-right: 2px solid currentColor;
+                transform: translateY(-50%) rotate(45deg);
+            }
+            .dashboard-recent .status-badge,
+            .dashboard-recent .priority-badge { padding: 5px 9px; font-size: .73rem; }
+            .mobile-bottom-nav {
+                position: fixed;
+                z-index: 1030;
+                inset: auto 0 0;
+                display: grid;
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+                min-height: calc(78px + env(safe-area-inset-bottom));
+                padding: 7px 8px calc(7px + env(safe-area-inset-bottom));
+                border-top: 1px solid #e8edf4;
+                background: rgb(255 255 255 / 97%);
+                box-shadow: 0 -6px 24px rgb(32 62 102 / 6%);
+                backdrop-filter: blur(14px);
+            }
+            .mobile-bottom-nav a {
+                display: flex;
+                min-width: 0;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 3px;
+                color: #758399;
+                text-decoration: none;
+                -webkit-tap-highlight-color: transparent;
+            }
+            .mobile-bottom-nav a > i { font-size: 1.28rem; line-height: 1.2; }
+            .mobile-bottom-nav a > span:last-child { font-size: .68rem; line-height: 1.2; white-space: nowrap; }
+            .mobile-bottom-nav a.active { color: #0875f5; }
+            .mobile-bottom-nav .bottom-nav-add { position: relative; justify-content: flex-end; }
+            .mobile-bottom-nav .bottom-nav-add .bottom-nav-add-icon {
+                position: absolute;
+                top: -20px;
+                left: 50%;
+                display: grid;
+                width: 68px;
+                height: 68px;
+                place-items: center;
+                border: 5px solid #fff;
+                border-radius: 50%;
+                background: #0875f5;
+                box-shadow: 0 7px 18px rgb(8 117 245 / 25%);
+                color: #fff;
+                font-size: 1.65rem;
+                transform: translateX(-50%);
+            }
+            .mobile-bottom-nav .bottom-nav-add > span:last-child { margin-bottom: 1px; }
             .table-responsive .form-select { min-width: 120px; }
             .table-responsive .btn { min-width: 40px; min-height: 38px; }
             .form-control,
@@ -366,4 +491,21 @@ $csrfToken = $csrfToken ?? '';
                     <span class="small text-secondary"><?php echo htmlspecialchars($adminName, ENT_QUOTES, 'UTF-8'); ?></span>
                 </div>
             </header>
+            <nav class="mobile-bottom-nav" aria-label="Primary navigation">
+                <a class="<?php echo $currentPage === 'dashboard' ? 'active' : ''; ?>" href="<?php echo $pageUrl; ?>?page=dashboard" <?php echo $currentPage === 'dashboard' ? 'aria-current="page"' : ''; ?>>
+                    <i class="bi bi-house-door-fill" aria-hidden="true"></i><span>Dashboard</span>
+                </a>
+                <a class="<?php echo $currentPage === 'tasks' ? 'active' : ''; ?>" href="<?php echo $pageUrl; ?>?page=tasks" <?php echo $currentPage === 'tasks' ? 'aria-current="page"' : ''; ?>>
+                    <i class="bi bi-list-task" aria-hidden="true"></i><span>Tasks</span>
+                </a>
+                <a class="bottom-nav-add" href="<?php echo $pageUrl; ?>?page=add-task" <?php echo $currentPage === 'add-task' ? 'aria-current="page"' : ''; ?> aria-label="Add task">
+                    <span class="bottom-nav-add-icon"><i class="bi bi-plus-lg" aria-hidden="true"></i></span><span>Add Task</span>
+                </a>
+                <a class="<?php echo $currentPage === 'employees' ? 'active' : ''; ?>" href="<?php echo $pageUrl; ?>?page=employees" <?php echo $currentPage === 'employees' ? 'aria-current="page"' : ''; ?>>
+                    <i class="bi bi-people" aria-hidden="true"></i><span>Team</span>
+                </a>
+                <a class="<?php echo $currentPage === 'settings' ? 'active' : ''; ?>" href="<?php echo $pageUrl; ?>?page=settings" <?php echo $currentPage === 'settings' ? 'aria-current="page"' : ''; ?>>
+                    <i class="bi bi-gear" aria-hidden="true"></i><span>Settings</span>
+                </a>
+            </nav>
             <main class="content-wrap container-fluid px-4 px-xl-5 py-4 py-lg-5">

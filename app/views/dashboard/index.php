@@ -19,19 +19,19 @@ $pageTitle = 'Dashboard';
 $currentPage = 'dashboard';
 require __DIR__ . '/../layouts/header.php';
 ?>
-<div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+<div class="dashboard-intro d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
     <div>
         <div class="eyebrow mb-2">OVERVIEW</div>
         <h1 class="h2 fw-bold mb-1">Dashboard</h1>
         <p class="text-secondary mb-0">A quick view of your team's work.</p>
     </div>
-    <a class="btn btn-primary px-3" href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'); ?>?page=add-task">
+    <a class="dashboard-header-add btn btn-primary px-3" href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'); ?>?page=add-task">
         <i class="bi bi-plus-lg me-1" aria-hidden="true"></i> Add Task
     </a>
 </div>
 
-<section class="row g-3 mb-4" aria-label="Task summary">
-    <?php foreach ([['Total tasks', $totalTasks, 'bi-clipboard-check', 'primary'], ['Pending', $pendingTasks, 'bi-hourglass-split', 'warning'], ['In progress', $inProgressTasks, 'bi-arrow-repeat', 'primary'], ['Completed', $completedTasks, 'bi-check2-circle', 'success']] as [$label, $count, $icon, $color]): ?>
+<section class="row g-3 mb-4 dashboard-stats" aria-label="Task summary">
+    <?php foreach ([['Total tasks', $totalTasks, 'bi-clipboard-check', 'primary'], ['Pending', $pendingTasks, 'bi-hourglass-split', 'warning'], ['In Progress', $inProgressTasks, 'bi-arrow-repeat', 'primary'], ['Completed', $completedTasks, 'bi-check2-circle', 'success']] as [$label, $count, $icon, $color]): ?>
         <div class="col-12 col-sm-6 col-xl-3">
             <div class="summary-item d-flex align-items-center gap-3 p-3 p-lg-4">
                 <span class="summary-icon bg-<?php echo $color; ?>-subtle text-<?php echo $color; ?>"><i class="bi <?php echo $icon; ?>" aria-hidden="true"></i></span>
@@ -41,10 +41,10 @@ require __DIR__ . '/../layouts/header.php';
     <?php endforeach; ?>
 </section>
 
-<section class="summary-item overflow-hidden" aria-labelledby="recent-tasks-title">
+<section class="summary-item overflow-hidden dashboard-recent" aria-labelledby="recent-tasks-title">
     <div class="d-flex align-items-center justify-content-between gap-3 border-bottom px-3 px-lg-4 py-3">
         <div>
-            <h2 id="recent-tasks-title" class="h6 fw-bold mb-1">Recent tasks</h2>
+            <h2 id="recent-tasks-title" class="h6 fw-bold mb-1">Recent Tasks</h2>
             <p class="small text-secondary mb-0">Latest items added to the task list</p>
         </div>
         <a class="small fw-semibold text-decoration-none" href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'); ?>?page=tasks">View all</a>
