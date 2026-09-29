@@ -2,6 +2,8 @@
 $pageUrl = htmlspecialchars($_SERVER['PHP_SELF'] ?? '/index.php', ENT_QUOTES, 'UTF-8');
 $pageTitle = $pageTitle ?? 'Task Manager';
 $currentPage = $currentPage ?? 'dashboard';
+$adminName = $adminName ?? 'Administrator';
+$csrfToken = $csrfToken ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,6 +79,10 @@ $currentPage = $currentPage ?? 'dashboard';
             border-bottom: 1px solid var(--line);
             background: #fff;
         }
+        .mobile-brand,
+        .mobile-nav-toggle,
+        .drawer-backdrop,
+        .mobile-drawer-logout { display: none; }
         .content-wrap { max-width: 1450px; }
         .eyebrow { color: var(--muted); font-size: .78rem; font-weight: 600; }
         .summary-item {
@@ -122,18 +128,89 @@ $currentPage = $currentPage ?? 'dashboard';
         .priority-high { background: #fde8e6; color: #b13a32; }
         .priority-default { background: #edf0f5; color: #556274; }
 
-        @media (max-width: 767.98px) {
+        @media (max-width: 768px) {
+            body { overflow-x: hidden; }
             .app-shell { display: block !important; }
-            .sidebar { width: 100%; min-height: auto; }
-            .sidebar nav { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            .sidebar .sidebar-footer { display: none; }
+            .sidebar {
+                position: fixed;
+                z-index: 1050;
+                inset: 0 auto 0 0;
+                width: min(290px, calc(100vw - 52px));
+                min-height: 100vh;
+                min-height: 100dvh;
+                overflow-y: auto;
+                transform: translateX(-105%);
+                transition: transform .22s ease;
+                box-shadow: 12px 0 32px rgb(20 39 67 / 18%);
+            }
+            .sidebar.is-open { transform: translateX(0); }
+            .sidebar .nav { display: flex !important; flex-direction: column; }
+            .sidebar .sidebar-footer { display: block; }
+            .mobile-drawer-logout { display: block; }
+            .drawer-backdrop {
+                position: fixed;
+                z-index: 1040;
+                inset: 0;
+                display: block;
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                border: 0;
+                background: rgb(12 24 42 / 48%);
+            }
+            .drawer-backdrop[hidden] { display: none; }
             .main-content { width: 100%; }
+            .topbar {
+                min-height: 60px;
+                padding: 10px 14px !important;
+            }
+            .topbar > .eyebrow,
+            .topbar > div:not(.mobile-brand) { display: none !important; }
+            .mobile-brand { display: flex; align-items: center; gap: 9px; }
+            .mobile-brand .brand-mark { width: 34px; height: 34px; }
+            .mobile-brand-title { font-size: 1rem; font-weight: 700; }
+            .mobile-nav-toggle {
+                display: inline-grid;
+                width: 42px;
+                height: 42px;
+                place-items: center;
+                border: 1px solid var(--line);
+                border-radius: 7px;
+                background: #fff;
+                color: var(--ink);
+                font-size: 1.25rem;
+            }
+            .content-wrap { padding: 20px 14px 28px !important; }
+            .content-wrap h1.h2 { font-size: 1.4rem; }
+            .content-wrap > .d-flex.align-items-end > .btn { width: 100%; min-height: 44px; }
+            .content-wrap > .d-flex.align-items-end > .d-flex { width: 100%; }
+            .content-wrap > .d-flex.align-items-end > .d-flex .btn { flex: 1 1 0; min-height: 44px; }
+            .content-wrap .row > [class*="col-"] { flex: 0 0 100%; max-width: 100%; }
+            .summary-item { min-width: 0; }
+            .summary-item.p-3,
+            .summary-item.p-3.p-lg-4 { padding: 16px !important; }
+            .table-responsive { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .table-responsive > .table { min-width: 620px; }
+            .table-responsive .form-select { min-width: 120px; }
+            .table-responsive .btn { min-width: 40px; min-height: 38px; }
+            .form-control,
+            .form-select { min-height: 44px; }
+            textarea.form-control { min-height: 110px; }
+            .content-wrap p { line-height: 1.45; }
+        }
+
+        @media (max-width: 380px) {
+            .content-wrap { padding-right: 12px !important; padding-left: 12px !important; }
+            .content-wrap > .d-flex.align-items-end > .d-flex { flex-direction: column; }
+            .content-wrap > .d-flex.align-items-end > .d-flex .btn { width: 100%; }
+            .summary-item.p-3,
+            .summary-item.p-3.p-lg-4 { padding: 14px !important; }
         }
     </style>
 </head>
 <body>
     <div class="app-shell d-flex">
-        <aside class="sidebar d-flex flex-column p-3 p-lg-4">
+        <aside id="appSidebar" class="sidebar d-flex flex-column p-3 p-lg-4">
             <a class="d-flex align-items-center gap-2 mb-5 text-decoration-none text-white" href="<?php echo $pageUrl; ?>?page=dashboard">
                 <span class="brand-mark"><i class="bi bi-check2-square" aria-hidden="true"></i></span>
                 <span class="fw-semibold">Task Manager</span>
@@ -147,6 +224,9 @@ $currentPage = $currentPage ?? 'dashboard';
                 <a class="nav-link <?php echo $currentPage === 'tasks' ? 'active' : ''; ?>" href="<?php echo $pageUrl; ?>?page=tasks" <?php echo $currentPage === 'tasks' ? 'aria-current="page"' : ''; ?>>
                     <i class="bi bi-list-task" aria-hidden="true"></i><span>Tasks</span>
                 </a>
+                <a class="nav-link <?php echo $currentPage === 'employees' ? 'active' : ''; ?>" href="<?php echo $pageUrl; ?>?page=employees" <?php echo $currentPage === 'employees' ? 'aria-current="page"' : ''; ?>>
+                    <i class="bi bi-people" aria-hidden="true"></i><span>Employees</span>
+                </a>
                 <a class="nav-link <?php echo $currentPage === 'add-task' ? 'active' : ''; ?>" href="<?php echo $pageUrl; ?>?page=add-task" <?php echo $currentPage === 'add-task' ? 'aria-current="page"' : ''; ?>>
                     <i class="bi bi-plus-circle" aria-hidden="true"></i><span>Add Task</span>
                 </a>
@@ -159,14 +239,32 @@ $currentPage = $currentPage ?? 'dashboard';
             </nav>
 
             <div class="sidebar-footer mt-auto pt-4 border-top border-secondary">
-                <div class="small fw-semibold text-white">Employee workspace</div>
+                <div class="small fw-semibold text-white">Admin dashboard</div>
                 <div class="small text-white-50"><?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?></div>
+                <form method="post" action="<?php echo $pageUrl; ?>?page=logout" class="mobile-drawer-logout mt-3">
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8'); ?>">
+                    <button class="btn btn-sm btn-outline-light w-100" type="submit">Log out</button>
+                </form>
             </div>
         </aside>
+        <button class="drawer-backdrop" type="button" aria-label="Close navigation" hidden></button>
 
         <div class="main-content">
             <header class="topbar d-flex align-items-center justify-content-between px-4 px-xl-5">
-                <span class="eyebrow">EMPLOYEE WORKSPACE</span>
-                <span class="small text-secondary"><?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?></span>
+                <div class="mobile-brand" aria-label="Task Manager">
+                    <span class="brand-mark"><i class="bi bi-check2-square" aria-hidden="true"></i></span>
+                    <span class="mobile-brand-title">Task Manager</span>
+                </div>
+                <button class="mobile-nav-toggle" type="button" aria-label="Open navigation" aria-controls="appSidebar" aria-expanded="false">
+                    <i class="bi bi-list" aria-hidden="true"></i>
+                </button>
+                <span class="eyebrow">ADMIN DASHBOARD</span>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="small text-secondary"><?php echo htmlspecialchars($adminName, ENT_QUOTES, 'UTF-8'); ?></span>
+                    <form method="post" action="<?php echo $pageUrl; ?>?page=logout" class="m-0">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8'); ?>">
+                        <button class="btn btn-sm btn-outline-secondary" type="submit">Log out</button>
+                    </form>
+                </div>
             </header>
             <main class="content-wrap container-fluid px-4 px-xl-5 py-4 py-lg-5">

@@ -3,6 +3,7 @@ $tasks = $tasks ?? [];
 $totalTasks = count($tasks);
 $statusCounts = ['pending' => 0, 'in_progress' => 0, 'completed' => 0];
 $priorityCounts = ['low' => 0, 'medium' => 0, 'high' => 0];
+$employeeReports = [];
 $overdueTasks = 0;
 $today = date('Y-m-d');
 
@@ -14,6 +15,17 @@ foreach ($tasks as $task) {
     }
     if (isset($priorityCounts[$priority])) {
         $priorityCounts[$priority]++;
+    }
+
+    $employeeName = (string) ($task['employee_name'] ?? 'Unassigned');
+    if (!isset($employeeReports[$employeeName])) {
+        $employeeReports[$employeeName] = ['total' => 0, 'in_progress' => 0, 'completed' => 0];
+    }
+    $employeeReports[$employeeName]['total']++;
+    if ($status === 'in_progress') {
+        $employeeReports[$employeeName]['in_progress']++;
+    } elseif ($status === 'completed') {
+        $employeeReports[$employeeName]['completed']++;
     }
     $dueDate = (string) ($task['due_date'] ?? '');
     if ($dueDate !== '' && $dueDate < $today && $status !== 'completed') {
@@ -83,4 +95,32 @@ require __DIR__ . '/../layouts/header.php';
         </section>
     </div>
 </div>
+
+<section class="summary-item overflow-hidden mt-3" aria-labelledby="employee-report-title">
+    <div class="border-bottom px-3 px-lg-4 py-3">
+        <h2 id="employee-report-title" class="h6 fw-bold mb-1">Progress by employee</h2>
+        <p class="small text-secondary mb-0">Assigned task completion across the team</p>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr><th class="ps-3 ps-lg-4">Employee</th><th>Total tasks</th><th>In progress</th><th class="pe-3 pe-lg-4">Completed</th></tr>
+            </thead>
+            <tbody>
+                <?php if (empty($employeeReports)): ?>
+                    <tr><td colspan="4" class="py-5 text-center text-secondary">No assigned tasks to report.</td></tr>
+                <?php else: ?>
+                    <?php foreach ($employeeReports as $employeeName => $counts): ?>
+                        <tr>
+                            <td class="ps-3 ps-lg-4 fw-semibold text-dark"><?php echo htmlspecialchars($employeeName, ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo $counts['total']; ?></td>
+                            <td><?php echo $counts['in_progress']; ?></td>
+                            <td class="pe-3 pe-lg-4"><?php echo $counts['completed']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</section>
 <?php require __DIR__ . '/../layouts/footer.php'; ?>
