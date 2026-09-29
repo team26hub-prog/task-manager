@@ -2,6 +2,8 @@
 $pageUrl = htmlspecialchars($_SERVER['PHP_SELF'] ?? '/index.php', ENT_QUOTES, 'UTF-8');
 $pageTitle = $pageTitle ?? 'Task Manager';
 $currentPage = $currentPage ?? 'dashboard';
+$adminName = $adminName ?? 'Administrator';
+$csrfToken = $csrfToken ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,14 +32,6 @@ $currentPage = $currentPage ?? 'dashboard';
 
         .app-shell { min-height: 100vh; }
         .sidebar {
-<<<<<<< Updated upstream
-            width: 250px;
-            min-height: 100vh;
-            flex: 0 0 250px;
-            background: var(--navy);
-            color: #d4deed;
-        }
-=======
             position: fixed;
             z-index: 1050;
             inset: 0 auto 0 0;
@@ -63,30 +57,18 @@ $currentPage = $currentPage ?? 'dashboard';
             color: var(--ink) !important;
             font-size: 1.02rem;
         }
->>>>>>> Stashed changes
         .brand-mark {
             display: grid;
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             place-items: center;
-            border-radius: 10px;
+            border-radius: 11px;
             background: #3979ef;
             color: #fff;
         }
         .sidebar .nav-link {
             display: flex;
             align-items: center;
-<<<<<<< Updated upstream
-            gap: 12px;
-            width: 100%;
-            padding: 11px 13px;
-            border: 0;
-            border-radius: 7px;
-            background: transparent;
-            color: #c1cde0;
-            text-align: left;
-            text-decoration: none;
-=======
             gap: 14px;
             width: 100%;
             min-height: 50px;
@@ -108,15 +90,11 @@ $currentPage = $currentPage ?? 'dashboard';
             place-items: center;
             color: #7b899b;
             font-size: 1.1rem;
->>>>>>> Stashed changes
         }
         .sidebar .nav-link:hover {
             background: #f2f5fa;
             color: var(--ink);
         }
-<<<<<<< Updated upstream
-        .sidebar .nav-link.active { box-shadow: inset 3px 0 #6ea0ff; }
-=======
         .sidebar .nav-link.active {
             background: #eaf1ff;
             color: #2458b8;
@@ -130,7 +108,6 @@ $currentPage = $currentPage ?? 'dashboard';
             outline-offset: 2px;
         }
         .sidebar .nav { gap: 5px !important; }
->>>>>>> Stashed changes
         .sidebar-label {
             color: #8793a3;
             font-size: .72rem;
@@ -171,8 +148,6 @@ $currentPage = $currentPage ?? 'dashboard';
             color: #a43b34;
         }
         .main-content { min-width: 0; flex: 1; }
-<<<<<<< Updated upstream
-=======
         .drawer-backdrop {
             position: fixed;
             z-index: 1040;
@@ -186,14 +161,11 @@ $currentPage = $currentPage ?? 'dashboard';
             backdrop-filter: blur(2px);
         }
         .drawer-backdrop[hidden] { display: none; }
->>>>>>> Stashed changes
         .topbar {
-            min-height: 70px;
+            min-height: 74px;
             border-bottom: 1px solid var(--line);
             background: #fff;
         }
-<<<<<<< Updated upstream
-=======
         .mobile-brand { display: none; }
         .mobile-nav-toggle,
         .mobile-drawer-close {
@@ -218,7 +190,6 @@ $currentPage = $currentPage ?? 'dashboard';
             height: 38px;
             font-size: 1.05rem;
         }
->>>>>>> Stashed changes
         .content-wrap { max-width: 1450px; }
         .eyebrow { color: var(--muted); font-size: .78rem; font-weight: 600; }
         .summary-item {
@@ -264,13 +235,9 @@ $currentPage = $currentPage ?? 'dashboard';
         .priority-high { background: #fde8e6; color: #b13a32; }
         .priority-default { background: #edf0f5; color: #556274; }
 
-        @media (max-width: 767.98px) {
+        @media (max-width: 768px) {
+            body { overflow-x: hidden; }
             .app-shell { display: block !important; }
-<<<<<<< Updated upstream
-            .sidebar { width: 100%; min-height: auto; }
-            .sidebar nav { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            .sidebar .sidebar-footer { display: none; }
-=======
             .sidebar {
                 width: min(320px, calc(100vw - 48px));
             }
@@ -282,20 +249,46 @@ $currentPage = $currentPage ?? 'dashboard';
                 font-size: 1.1rem;
             }
             .sidebar .sidebar-footer { display: block; }
->>>>>>> Stashed changes
             .main-content { width: 100%; }
+            .topbar {
+                min-height: 60px;
+                padding: 10px 14px !important;
+            }
+            .topbar > .eyebrow,
+            .topbar > div:not(.mobile-brand) { display: none !important; }
+            .mobile-brand { display: flex; align-items: center; gap: 9px; }
+            .mobile-brand .brand-mark { width: 34px; height: 34px; }
+            .mobile-brand-title { font-size: 1rem; font-weight: 700; }
+            .content-wrap { padding: 20px 14px 28px !important; }
+            .content-wrap h1.h2 { font-size: 1.4rem; }
+            .content-wrap > .d-flex.align-items-end > .btn { width: 100%; min-height: 44px; }
+            .content-wrap > .d-flex.align-items-end > .d-flex { width: 100%; }
+            .content-wrap > .d-flex.align-items-end > .d-flex .btn { flex: 1 1 0; min-height: 44px; }
+            .content-wrap .row > [class*="col-"] { flex: 0 0 100%; max-width: 100%; }
+            .summary-item { min-width: 0; }
+            .summary-item.p-3,
+            .summary-item.p-3.p-lg-4 { padding: 16px !important; }
+            .table-responsive { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .table-responsive > .table { min-width: 620px; }
+            .table-responsive .form-select { min-width: 120px; }
+            .table-responsive .btn { min-width: 40px; min-height: 38px; }
+            .form-control,
+            .form-select { min-height: 44px; }
+            textarea.form-control { min-height: 110px; }
+            .content-wrap p { line-height: 1.45; }
+        }
+
+        @media (max-width: 380px) {
+            .content-wrap { padding-right: 12px !important; padding-left: 12px !important; }
+            .content-wrap > .d-flex.align-items-end > .d-flex { flex-direction: column; }
+            .content-wrap > .d-flex.align-items-end > .d-flex .btn { width: 100%; }
+            .summary-item.p-3,
+            .summary-item.p-3.p-lg-4 { padding: 14px !important; }
         }
     </style>
 </head>
 <body>
     <div class="app-shell d-flex">
-<<<<<<< Updated upstream
-        <aside class="sidebar d-flex flex-column p-3 p-lg-4">
-            <a class="d-flex align-items-center gap-2 mb-5 text-decoration-none text-white" href="<?php echo $pageUrl; ?>?page=dashboard">
-                <span class="brand-mark"><i class="bi bi-check2-square" aria-hidden="true"></i></span>
-                <span class="fw-semibold">Task Manager</span>
-            </a>
-=======
         <aside id="appSidebar" class="sidebar d-flex flex-column p-3 p-lg-4">
             <div class="sidebar-brand-row d-flex align-items-center justify-content-between mb-5">
                 <a class="d-flex align-items-center gap-2 text-decoration-none text-white" href="<?php echo $pageUrl; ?>?page=dashboard">
@@ -306,7 +299,6 @@ $currentPage = $currentPage ?? 'dashboard';
                     <i class="bi bi-x-lg" aria-hidden="true"></i>
                 </button>
             </div>
->>>>>>> Stashed changes
 
             <div class="sidebar-label mb-2 px-2">Workspace</div>
             <nav class="nav flex-column gap-1" aria-label="Dashboard navigation">
@@ -315,6 +307,9 @@ $currentPage = $currentPage ?? 'dashboard';
                 </a>
                 <a class="nav-link <?php echo $currentPage === 'tasks' ? 'active' : ''; ?>" href="<?php echo $pageUrl; ?>?page=tasks" <?php echo $currentPage === 'tasks' ? 'aria-current="page"' : ''; ?>>
                     <i class="bi bi-list-task" aria-hidden="true"></i><span>Tasks</span>
+                </a>
+                <a class="nav-link <?php echo $currentPage === 'employees' ? 'active' : ''; ?>" href="<?php echo $pageUrl; ?>?page=employees" <?php echo $currentPage === 'employees' ? 'aria-current="page"' : ''; ?>>
+                    <i class="bi bi-people" aria-hidden="true"></i><span>Employees</span>
                 </a>
                 <a class="nav-link <?php echo $currentPage === 'add-task' ? 'active' : ''; ?>" href="<?php echo $pageUrl; ?>?page=add-task" <?php echo $currentPage === 'add-task' ? 'aria-current="page"' : ''; ?>>
                     <i class="bi bi-plus-circle" aria-hidden="true"></i><span>Add Task</span>
@@ -327,11 +322,6 @@ $currentPage = $currentPage ?? 'dashboard';
                 </a>
             </nav>
 
-<<<<<<< Updated upstream
-            <div class="sidebar-footer mt-auto pt-4 border-top border-secondary">
-                <div class="small fw-semibold text-white">Employee workspace</div>
-                <div class="small text-white-50"><?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?></div>
-=======
             <div class="sidebar-footer mt-auto pt-4 border-top">
                 <div class="d-flex align-items-center gap-3">
                     <span class="sidebar-account-icon"><i class="bi bi-person-fill" aria-hidden="true"></i></span>
@@ -344,16 +334,12 @@ $currentPage = $currentPage ?? 'dashboard';
                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8'); ?>">
                     <button class="btn btn-sm btn-outline-secondary w-100" type="submit"><i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i>Log out</button>
                 </form>
->>>>>>> Stashed changes
             </div>
         </aside>
+        <button class="drawer-backdrop" type="button" aria-label="Close navigation" hidden></button>
 
         <div class="main-content">
             <header class="topbar d-flex align-items-center justify-content-between px-4 px-xl-5">
-<<<<<<< Updated upstream
-                <span class="eyebrow">EMPLOYEE WORKSPACE</span>
-                <span class="small text-secondary"><?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?></span>
-=======
                 <div class="mobile-brand" aria-label="Task Manager">
                     <span class="brand-mark"><i class="bi bi-check2-square" aria-hidden="true"></i></span>
                     <span class="mobile-brand-title">Task Manager</span>
@@ -365,6 +351,5 @@ $currentPage = $currentPage ?? 'dashboard';
                 <div class="d-flex align-items-center gap-3">
                     <span class="small text-secondary"><?php echo htmlspecialchars($adminName, ENT_QUOTES, 'UTF-8'); ?></span>
                 </div>
->>>>>>> Stashed changes
             </header>
             <main class="content-wrap container-fluid px-4 px-xl-5 py-4 py-lg-5">
