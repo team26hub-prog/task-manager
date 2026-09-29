@@ -30,12 +30,40 @@ $currentPage = $currentPage ?? 'dashboard';
 
         .app-shell { min-height: 100vh; }
         .sidebar {
+<<<<<<< Updated upstream
             width: 250px;
             min-height: 100vh;
             flex: 0 0 250px;
             background: var(--navy);
             color: #d4deed;
         }
+=======
+            position: fixed;
+            z-index: 1050;
+            inset: 0 auto 0 0;
+            width: 300px;
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-y: auto;
+            flex: 0 0 300px;
+            border-right: 1px solid var(--line);
+            background: #fff;
+            color: var(--ink);
+            transform: translateX(-105%);
+            transition: transform .28s cubic-bezier(.22, .68, 0, 1);
+            box-shadow: 18px 0 48px rgb(23 37 59 / 14%);
+        }
+        .sidebar.is-open { transform: translateX(0); }
+        .sidebar-brand-row {
+            margin-bottom: 30px !important;
+            padding: 0 2px 20px;
+            border-bottom: 1px solid var(--line);
+        }
+        .sidebar .sidebar-brand-row > a {
+            color: var(--ink) !important;
+            font-size: 1.02rem;
+        }
+>>>>>>> Stashed changes
         .brand-mark {
             display: grid;
             width: 36px;
@@ -48,6 +76,7 @@ $currentPage = $currentPage ?? 'dashboard';
         .sidebar .nav-link {
             display: flex;
             align-items: center;
+<<<<<<< Updated upstream
             gap: 12px;
             width: 100%;
             padding: 11px 13px;
@@ -57,26 +86,139 @@ $currentPage = $currentPage ?? 'dashboard';
             color: #c1cde0;
             text-align: left;
             text-decoration: none;
+=======
+            gap: 14px;
+            width: 100%;
+            min-height: 50px;
+            padding: 12px 14px;
+            border: 0;
+            border-radius: 9px;
+            background: transparent;
+            color: #526174;
+            font-size: .94rem;
+            font-weight: 600;
+            text-align: left;
+            text-decoration: none;
+            transition: background-color .16s ease, color .16s ease, transform .16s ease;
         }
-        .sidebar .nav-link:hover,
-        .sidebar .nav-link.active {
-            background: #263d5d;
-            color: #fff;
+        .sidebar .nav-link i {
+            display: inline-grid;
+            width: 22px;
+            flex: 0 0 22px;
+            place-items: center;
+            color: #7b899b;
+            font-size: 1.1rem;
+>>>>>>> Stashed changes
         }
+        .sidebar .nav-link:hover {
+            background: #f2f5fa;
+            color: var(--ink);
+        }
+<<<<<<< Updated upstream
         .sidebar .nav-link.active { box-shadow: inset 3px 0 #6ea0ff; }
+=======
+        .sidebar .nav-link.active {
+            background: #eaf1ff;
+            color: #2458b8;
+            box-shadow: inset 3px 0 #2864dc;
+        }
+        .sidebar .nav-link.active i { color: #2864dc; }
+        .sidebar .nav-link:focus-visible,
+        .mobile-nav-toggle:focus-visible,
+        .mobile-drawer-close:focus-visible {
+            outline: 3px solid #6d9df4;
+            outline-offset: 2px;
+        }
+        .sidebar .nav { gap: 5px !important; }
+>>>>>>> Stashed changes
         .sidebar-label {
-            color: #8292aa;
+            color: #8793a3;
             font-size: .72rem;
             font-weight: 700;
-            letter-spacing: .08em;
+            letter-spacing: 0;
             text-transform: uppercase;
         }
+        .sidebar-footer { border-color: var(--line) !important; }
+        .sidebar-account-icon {
+            display: grid;
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            place-items: center;
+            border-radius: 50%;
+            background: #edf2fa;
+            color: #53657d;
+            font-size: 1.1rem;
+        }
+        .sidebar-account-name {
+            overflow: hidden;
+            color: var(--ink);
+            font-size: .88rem;
+            font-weight: 700;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .sidebar-account-role { color: var(--muted); font-size: .76rem; }
+        .sidebar-logout .btn {
+            min-height: 42px;
+            border-color: var(--line);
+            color: #526174;
+            font-weight: 600;
+        }
+        .sidebar-logout .btn:hover {
+            border-color: #f2d2d0;
+            background: #fff3f2;
+            color: #a43b34;
+        }
         .main-content { min-width: 0; flex: 1; }
+<<<<<<< Updated upstream
+=======
+        .drawer-backdrop {
+            position: fixed;
+            z-index: 1040;
+            inset: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            border: 0;
+            background: rgb(18 31 49 / 40%);
+            backdrop-filter: blur(2px);
+        }
+        .drawer-backdrop[hidden] { display: none; }
+>>>>>>> Stashed changes
         .topbar {
             min-height: 70px;
             border-bottom: 1px solid var(--line);
             background: #fff;
         }
+<<<<<<< Updated upstream
+=======
+        .mobile-brand { display: none; }
+        .mobile-nav-toggle,
+        .mobile-drawer-close {
+            display: inline-grid;
+            width: 44px;
+            height: 44px;
+            place-items: center;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            background: #f7f9fc;
+            color: #34445b;
+            font-size: 1.25rem;
+            transition: background-color .16s ease, border-color .16s ease;
+        }
+        .mobile-nav-toggle:hover,
+        .mobile-drawer-close:hover {
+            border-color: #d3dce8;
+            background: #edf2f8;
+        }
+        .mobile-drawer-close {
+            width: 38px;
+            height: 38px;
+            font-size: 1.05rem;
+        }
+>>>>>>> Stashed changes
         .content-wrap { max-width: 1450px; }
         .eyebrow { color: var(--muted); font-size: .78rem; font-weight: 600; }
         .summary-item {
@@ -124,20 +266,47 @@ $currentPage = $currentPage ?? 'dashboard';
 
         @media (max-width: 767.98px) {
             .app-shell { display: block !important; }
+<<<<<<< Updated upstream
             .sidebar { width: 100%; min-height: auto; }
             .sidebar nav { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .sidebar .sidebar-footer { display: none; }
+=======
+            .sidebar {
+                width: min(320px, calc(100vw - 48px));
+            }
+            .sidebar .nav { display: flex !important; flex-direction: column; }
+            .sidebar .nav-link i {
+                display: inline-grid;
+                width: 22px;
+                place-items: center;
+                font-size: 1.1rem;
+            }
+            .sidebar .sidebar-footer { display: block; }
+>>>>>>> Stashed changes
             .main-content { width: 100%; }
         }
     </style>
 </head>
 <body>
     <div class="app-shell d-flex">
+<<<<<<< Updated upstream
         <aside class="sidebar d-flex flex-column p-3 p-lg-4">
             <a class="d-flex align-items-center gap-2 mb-5 text-decoration-none text-white" href="<?php echo $pageUrl; ?>?page=dashboard">
                 <span class="brand-mark"><i class="bi bi-check2-square" aria-hidden="true"></i></span>
                 <span class="fw-semibold">Task Manager</span>
             </a>
+=======
+        <aside id="appSidebar" class="sidebar d-flex flex-column p-3 p-lg-4">
+            <div class="sidebar-brand-row d-flex align-items-center justify-content-between mb-5">
+                <a class="d-flex align-items-center gap-2 text-decoration-none text-white" href="<?php echo $pageUrl; ?>?page=dashboard">
+                    <span class="brand-mark"><i class="bi bi-check2-square" aria-hidden="true"></i></span>
+                    <span class="fw-semibold">Task Manager</span>
+                </a>
+                <button class="mobile-drawer-close" type="button" aria-label="Close navigation" title="Close menu">
+                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                </button>
+            </div>
+>>>>>>> Stashed changes
 
             <div class="sidebar-label mb-2 px-2">Workspace</div>
             <nav class="nav flex-column gap-1" aria-label="Dashboard navigation">
@@ -158,15 +327,44 @@ $currentPage = $currentPage ?? 'dashboard';
                 </a>
             </nav>
 
+<<<<<<< Updated upstream
             <div class="sidebar-footer mt-auto pt-4 border-top border-secondary">
                 <div class="small fw-semibold text-white">Employee workspace</div>
                 <div class="small text-white-50"><?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?></div>
+=======
+            <div class="sidebar-footer mt-auto pt-4 border-top">
+                <div class="d-flex align-items-center gap-3">
+                    <span class="sidebar-account-icon"><i class="bi bi-person-fill" aria-hidden="true"></i></span>
+                    <div class="min-w-0">
+                        <div class="sidebar-account-name"><?php echo htmlspecialchars($adminName, ENT_QUOTES, 'UTF-8'); ?></div>
+                        <div class="sidebar-account-role">Administrator</div>
+                    </div>
+                </div>
+                <form method="post" action="<?php echo $pageUrl; ?>?page=logout" class="sidebar-logout mt-3">
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8'); ?>">
+                    <button class="btn btn-sm btn-outline-secondary w-100" type="submit"><i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i>Log out</button>
+                </form>
+>>>>>>> Stashed changes
             </div>
         </aside>
 
         <div class="main-content">
             <header class="topbar d-flex align-items-center justify-content-between px-4 px-xl-5">
+<<<<<<< Updated upstream
                 <span class="eyebrow">EMPLOYEE WORKSPACE</span>
                 <span class="small text-secondary"><?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?></span>
+=======
+                <div class="mobile-brand" aria-label="Task Manager">
+                    <span class="brand-mark"><i class="bi bi-check2-square" aria-hidden="true"></i></span>
+                    <span class="mobile-brand-title">Task Manager</span>
+                </div>
+                <button class="mobile-nav-toggle" type="button" aria-label="Open navigation" aria-controls="appSidebar" aria-expanded="false">
+                    <i class="bi bi-list" aria-hidden="true"></i>
+                </button>
+                <span class="eyebrow">ADMIN DASHBOARD</span>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="small text-secondary"><?php echo htmlspecialchars($adminName, ENT_QUOTES, 'UTF-8'); ?></span>
+                </div>
+>>>>>>> Stashed changes
             </header>
             <main class="content-wrap container-fluid px-4 px-xl-5 py-4 py-lg-5">
