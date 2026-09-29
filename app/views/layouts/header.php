@@ -268,8 +268,22 @@ $csrfToken = $csrfToken ?? '';
             .summary-item { min-width: 0; }
             .summary-item.p-3,
             .summary-item.p-3.p-lg-4 { padding: 16px !important; }
-            .table-responsive { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            .table-responsive > .table { min-width: 620px; }
+            
+            .table-responsive {
+    overflow-x: hidden;
+}
+
+.table-responsive > .table {
+    min-width: 100%;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table-responsive th,
+.table-responsive td {
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
             .table-responsive .form-select { min-width: 120px; }
             .table-responsive .btn { min-width: 40px; min-height: 38px; }
             .form-control,
